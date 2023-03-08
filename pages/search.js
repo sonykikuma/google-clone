@@ -4,6 +4,7 @@ import SearchHeader from "../components/SearchHeader";
 import Response from "../Response";
 import { useRouter } from "next/router";
 import SearchResults from "../components/SearchResults";
+import ImageResults from "../components/ImageResults";
 
 /*
 <script async src="https://cse.google.com/cse.js?cx=e738f568a03844f35">
@@ -21,8 +22,12 @@ const search = ({ results }) => {
       </Head>
       {/*search header*/}
       <SearchHeader />
-      {/*search results*/}
-      <SearchResults results={results} />
+      {/*search web and image results*/}
+      {router.query.searchType === "image" ? (
+        <ImageResults results={results} />
+      ) : (
+        <SearchResults results={results} />
+      )}
     </div>
   );
 };
@@ -30,7 +35,8 @@ const search = ({ results }) => {
 export default search;
 
 export async function getServerSideProps(context) {
-  const mockData = true;
+  const startIndex = context.query.start || "1";
+  const mockData = false;
 
   const data = mockData
     ? Response
@@ -39,7 +45,7 @@ export async function getServerSideProps(context) {
           process.env.API_KEY
         }&cx=${process.env.CONTEXT_KEY}&q=${context.query.term}${
           context.query.searchType && "&searchType=image"
-        }`
+        }&start=${startIndex}`
       ).then((response) => response.json());
   return {
     props: {
