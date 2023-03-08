@@ -1,18 +1,11 @@
 import Head from "next/head";
-import React from "react";
 import SearchHeader from "../components/SearchHeader";
 import Response from "../Response";
 import { useRouter } from "next/router";
 import SearchResults from "../components/SearchResults";
 import ImageResults from "../components/ImageResults";
 
-/*
-<script async src="https://cse.google.com/cse.js?cx=e738f568a03844f35">
-</script>
-<div class="gcse-search"></div>
-*/
-
-const search = ({ results }) => {
+const Search = ({ results }) => {
   console.log(results);
   const router = useRouter();
   return (
@@ -32,7 +25,7 @@ const search = ({ results }) => {
   );
 };
 
-export default search;
+export default Search;
 
 export async function getServerSideProps(context) {
   const startIndex = context.query.start || "1";
